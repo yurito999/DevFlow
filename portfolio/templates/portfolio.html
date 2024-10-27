@@ -1,0 +1,581 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <style>
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      z-index: 1;
+      justify-content: center;
+    }
+
+    .portfolio-card {
+      background-color: #0b0d29;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 500px;
+    }
+
+    .portfolio-card:hover {
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        transform: translateY(-10px);
+        animation: neonGlowLoop 1.5s infinite linear;
+    }
+
+    @keyframes neonGlowLoop {
+      0% {
+        box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3), 0 0 30px rgba(255, 0, 255, 0.2);
+      }
+      25% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.4), 0 0 60px rgba(255, 0, 255, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 60px rgba(255, 0, 255, 0.5), 0 0 90px rgba(255, 0, 255, 0.4);
+      }
+      75% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 40px rgba(255, 0, 255, 0.4), 0 0 60px rgba(255, 0, 255, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3), 0 0 30px rgba(255, 0, 255, 0.2);
+      }
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+
+    .portfolio-card img.default-img {
+      width: 70%;
+      height: auto;
+      border-radius: 50%;
+      margin-top: 20px;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .portfolio-card h2 {
+      font-size: 1.5rem;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #ffffff;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .portfolio-card p {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+      padding: 0 15px;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      gap: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: hsl(283, 100%, 30%) !important;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #720101;
+    }
+
+    @media (max-width: 768px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .portfolio-card {
+        max-width: 100%;
+        margin: 10px auto;
+      }
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    input[type="text"] {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #d1d1d1;
+        border-radius: 25px;
+        margin-right: 10px;
+        width: 350px;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        border-color: hsl(283, 100%, 30%);
+    }
+
+    button[type="submit"] {
+        background-color: hsl(283, 100%, 30%) !important;
+        color: #fff;
+        border: none;
+        padding: 15px 25px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #720101;
+    }
+
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: hsl(283, 100%, 30%);
+    }
+
+    .no-results {
+      text-align: center;
+      color: #666;
+      font-size: 1.2rem;
+    }
+
+    .no-photos {
+      padding: 20px;
+      color: #999;
+    }
+
+    .search-results {
+      border: 1px solid #ccc;
+      background-color: #fff;
+      width: 350px;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .search-results div {
+      padding: 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-results div img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .search-results div a {
+      text-decoration: none;
+      color: #333;
+      flex-grow: 1;
+    }
+
+    .search-results div:hover {
+      background-color: #f0f0f0;
+    }
+
+    .navigation-arrow {
+      position: absolute;
+      top: 85.6%;
+      transform: translateY(-50%);
+      background-color: hsl(283, 100%, 30%);
+      color: #fff;
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #arrow-right {
+      right: 10px;
+    }
+
+    .navigation-arrow:hover {
+      background-color: #720101;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .navigation-arrow i {
+      margin: 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      .navigation-arrow {
+        display: none;
+      }
+    }
+
+    /* Paginação */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      gap: 16px;
+    }
+
+    .pagination a, .pagination button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: hsl(283, 100%, 30%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .pagination a:hover, .pagination button:hover {
+      background-color: #720101;
+    }
+
+    .pagination button.active {
+      background-color: #720101;
+    }
+
+    @media (max-width: 768px) {
+      .pagination a, .pagination button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pagination a, .pagination button {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+
+  </style>
+
+  <!-- Campo de busca com sugestão em tempo real -->
+  <form method="GET" action="{% url 'portfolio_list' %}">
+    <input type="text" name="search" id="search-input" placeholder="Buscar portfólio..." autocomplete="off">
+    <button type="submit">Buscar</button>
+    <div id="search-results" class="search-results"></div>
+  </form>
+
+  {% if portfolios %}
+  <div class="portfolio-grid" id="portfolio-grid">
+    {% for item in portfolios %}
+      <a href="{% url 'portfolio_detail' item.pk %}">
+        <div class="portfolio-card">
+          {% if item.photo %}
+            <img src="{{ item.photo.url }}" alt="{{ item.primeiro_nome }} {{ item.sobrenome }}">
+          {% else %}
+            <img src="/static/icons/sem_perfil.png" alt="Sem Foto" class="default-img">
+          {% endif %}
+          <h2>{{ item.primeiro_nome }}</h2>
+          <p>{{ item.principal_formacao }} - {{ item.tempo_experiencia }} anos de experiência</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+   <!-- Paginação -->
+<div class="pagination">
+  {% if portfolios.has_previous %}
+    <a href="?page={{ portfolios.previous_page_number }}" class="btn">Anterior</a>
+  {% else %}
+    <button class="btn disabled" disabled>Anterior</button>
+  {% endif %}
+
+  {% for num in portfolios.paginator.page_range %}
+    {% if portfolios.number == num %}
+      <button class="btn active" disabled>{{ num }}</button>
+    {% else %}
+      <a href="?page={{ num }}" class="btn">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if portfolios.has_next %}
+    <a href="?page={{ portfolios.next_page_number }}" class="btn">Próxima</a>
+  {% else %}
+    <button class="btn disabled" disabled>Próxima</button>
+  {% endif %}
+</div>
+
+
+  {% else %}
+    <p class="no-results">Nenhum portfólio encontrado.</p>
+  {% endif %}
+
+  <!-- Adicionando seta de navegação para cursos -->
+  <div id="arrow-right" class="navigation-arrow">
+    Cursos <i class="ri-arrow-right-line"></i>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const resultBox = document.getElementById('search-results');
+    const arrowRight = document.getElementById('arrow-right');
+    const portfolioGrid = document.getElementById('portfolio-grid');
+    const paginationButtons = document.querySelectorAll('.pagination a, .pagination button');
+
+    // Função de busca dinâmica
+    searchInput.addEventListener('input', async function() {
+        const query = searchInput.value;
+        if (query.length > 1) {
+            try {
+                const response = await fetch(`/search-profiles/?q=${query}`);
+                const data = await response.json();
+                resultBox.innerHTML = '';  // Limpa a lista anterior
+                if (data.length > 0) {
+                    data.forEach(profile => {
+                        const resultItem = document.createElement('div');
+                        resultItem.innerHTML = `
+                            <img src="${profile.photo_url ? profile.photo_url : '/static/images/default-profile.png'}" alt="Foto de ${profile.nome}">
+                            <a href="${profile.url}">
+                                <strong>${profile.nome}</strong> - ${profile.principal_formacao}
+                            </a>
+                        `;
+                        resultBox.appendChild(resultItem);
+                    });
+                } else {
+                    resultBox.innerHTML = '<div>Nenhum resultado encontrado</div>';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar perfis:', error);
+            }
+        } else {
+            resultBox.innerHTML = '';  // Limpa se a busca for muito curta
+        }
+    });
+
+    // Redirecionar ao clicar na seta "Cursos"
+    if (arrowRight) {
+        arrowRight.addEventListener('click', function() {
+            handleNavigation();
+            setTimeout(() => {
+                window.location.href = "{% url 'lista_cursos' %}";
+            }, 600);
+        });
+    }
+
+    // Adicionar evento de carregamento aos botões de paginação
+    paginationButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            if (!button.classList.contains('disabled')) {
+                event.preventDefault();
+                handleNavigation();
+                setTimeout(() => {
+                    window.location.href = button.getAttribute('href');
+                }, 600);
+            }
+        });
+    });
+
+    // Função para carregar portfólios com animação
+    async function loadPortfolios(url) {
+        handleNavigation();
+
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            setTimeout(() => {
+                // Parseia a nova página e substitui o conteúdo dos portfólios
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newPortfolios = doc.querySelector('#portfolio-grid').innerHTML;
+
+                portfolioGrid.innerHTML = newPortfolios;
+
+                // Remover animação e overlay de carregamento
+                removeLoadingState();
+            }, 600);
+        } catch (error) {
+            console.error('Erro ao carregar portfólios:', error);
+            removeLoadingState();
+        }
+    }
+
+    function handleNavigation() {
+        // Prevenir múltiplos cliques
+        if (document.body.classList.contains('loading')) return;
+
+        document.body.classList.add('loading');
+
+        // Criar o overlay de carregamento se não existir
+        let loadingOverlay = document.querySelector('.loading-overlay');
+        if (!loadingOverlay) {
+            loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay visible';
+            document.body.appendChild(loadingOverlay);
+            loadingOverlay.innerHTML = '<div class="spinner"></div>';
+        }
+
+        // Adicionar a animação de saída
+        if (portfolioGrid) {
+            portfolioGrid.classList.add('slide-out-left');
+        }
+    }
+
+    function removeLoadingState() {
+        // Remover classe de carregamento e overlay
+        document.body.classList.remove('loading');
+        const loadingOverlay = document.querySelector('.loading-overlay');
+        if (loadingOverlay) {
+            loadingOverlay.remove();
+        }
+
+        // Remover classe de animação
+        if (portfolioGrid) {
+            portfolioGrid.classList.remove('slide-out-left');
+        }
+    }
+
+    // Ajustar posição do navigation-arrow com base no número de divs na página
+    const adjustNavigationArrowPosition = () => {
+        const portfolioCards = document.querySelectorAll('.portfolio-card');
+        if (portfolioCards.length <= 4) {
+            arrowRight.style.top = '50%';
+        } else {
+            arrowRight.style.top = '85.6%';
+        }
+    };
+
+    // Ajustar a posição ao carregar a página
+    adjustNavigationArrowPosition();
+
+    // Ajustar a posição ao redimensionar a janela
+    window.addEventListener('resize', adjustNavigationArrowPosition);
+});
+</script>
+
+  <!-- Loading overlay style -->
+  <style>
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      visibility: hidden;
+    }
+
+    .loading-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid hsl(283, 100%, 30%);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Animação de transição para sair da página da esquerda para a direita */
+    .slide-out-left {
+      animation: slideOutLeft 0.6s ease-in-out;
+    }
+
+    @keyframes slideOutLeft {
+      0% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  </style>
+
+{% endblock %}

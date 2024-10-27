@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--=============== REMIXICONS ===============-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+  <!--=============== CSS Customizado ===============-->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+  <style>
+    /*========== Colors ==========*/
+    :root {
+      --hue: 230;
+      --first-color: hsl(var(--hue), 55%, 55%);
+      --first-color-light: hsl(var(--hue), 55%, 65%);
+      --first-color-alt: hsl(var(--hue), 50%, 50%);
+      --title-color: hsl(var(--hue), 30%, 95%);
+      --text-color: hsl(var(--hue), 20%, 80%);
+      --text-color-light: hsl(var(--hue), 20%, 70%);
+      --body-color: hsl(var(--hue), 40%, 16%);
+      --container-color: hsl(var(--hue), 40%, 20%);
+      --hover-color: #800080; /* Lilás */
+
+      /*========== Font and typography ==========*/
+      --body-font: "Syne", sans-serif;
+      --h1-font-size: 2.25rem;
+      --h2-font-size: 1.5rem;
+      --normal-font-size: 1.125rem;
+    }
+
+    /*=============== HEADER & NAV ===============*/
+    body {
+      font-family: var(--body-font);
+      margin: 0;
+      padding: 0;
+      background-color: var(--body-color);
+    }
+
+    .header {
+      position: relative;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: var(--body-color);
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .nav__logo {
+      color: var(--title-color);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .nav__logo:hover {
+      color: var(--hover-color);
+    }
+
+    .nav__toggle {
+      font-size: 2rem;
+      color: var(--title-color);
+      cursor: pointer;
+      display: none;
+      z-index: 150;
+    }
+
+    .nav__menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav__list {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav__link {
+      color: var(--title-color);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+      font-size: 1.25rem; /* Ajuste do tamanho da fonte */
+    }
+
+    .nav__link:hover {
+      color: var(--hover-color);
+    }
+
+    .dropdown__menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--container-color);
+      padding: 1rem;
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 200;
+    }
+
+    .dropdown__menu.show {
+      display: flex;
+    }
+
+    /*========== Responsive Layout ==========*/
+    @media screen and (max-width: 1150px) {
+      .nav__toggle {
+        display: block;
+      }
+
+      .nav__menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        background-color: var(--container-color);
+        width: 80%;
+        height: 100%;
+        flex-direction: column;
+        padding: 5rem 2rem;
+        transition: right 0.3s ease-in-out;
+        z-index: 300;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+      }
+
+      .nav__list {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: left;
+      }
+
+      .nav__list a {
+        display: block;
+        width: 100%;
+      }
+
+      .show-menu {
+        right: 0;
+      }
+
+      .nav__title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .nav__title {
+        font-size: 1.5rem;
+        color: var(--title-color);
+        font-weight: 700;
+      }
+
+      .nav__system-name {
+        flex-grow: 1;
+        text-align: center;
+        margin-left: -2rem; /* Ajuste fino para centralização */
+      }
+
+      .nav__system-name h2 {
+        color: var(--title-color);
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .nav__close {
+        font-size: 2rem;
+        color: var(--title-color);
+        cursor: pointer;
+        align-self: flex-start;
+        transform: translateY(-20%);
+        transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        animation: closeButtonAnimation 0.5s ease-in-out;
+      }
+
+      .nav__close:hover {
+        color: var(--hover-color);
+        transform: rotate(90deg);
+      }
+
+      .nav__dropdown {
+        display: none;
+      }
+
+      .nav__item--mobile-only {
+        display: block;
+      }
+
+      /* Ajuste do tamanho da fonte em telas menores */
+      .nav__link {
+        font-size: 1.5rem;
+      }
+
+      /* Esconder os três pontos para superusuários em telas menores */
+      .nav__dropdown-toggle {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 1151px) {
+      .nav__toggle {
+        display: none;
+      }
+
+      .nav__menu {
+        position: static;
+        height: auto;
+        flex-direction: row;
+        padding: 0;
+        box-shadow: none;
+        overflow: visible;
+      }
+
+      .nav__dropdown {
+        display: block;
+        position: relative;
+      }
+
+      .nav__dropdown-toggle {
+        font-size: 2rem;
+        color: var(--title-color);
+        cursor: pointer;
+      }
+
+      .nav__title-container {
+        display: none;
+      }
+
+      .nav__item--mobile-only {
+        display: none;
+      }
+
+      .dropdown__menu {
+        display: none;
+      }
+
+      .dropdown__menu.show {
+        display: flex;
+      }
+
+      .nav__dropdown:hover .dropdown__menu {
+        display: flex;
+      }
+
+      .nav__dropdown-toggle:hover {
+        color: var(--hover-color);
+      }
+    }
+
+    @keyframes closeButtonAnimation {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!--=============== NAVBAR ===============-->
+  <header class="header">
+    <nav class="nav container-fluid">
+      <a href="{% url 'portfolio_list' %}" class="nav__logo">DevFlow</a>
+      <div class="nav__toggle" id="nav-toggle">
+        <i class="ri-menu-line"></i>
+      </div>
+      <div class="nav__menu" id="nav-menu">
+        <div class="nav__title-container">
+          <div class="nav__close" id="nav-close">
+            <i class="ri-close-line"></i>
+          </div>
+          <div class="nav__system-name">
+            <h2>DevFlow</h2>
+          </div>
+        </div>
+        <ul class="nav__list">
+          {% if user.is_authenticated %}
+          <li class="nav__item">
+            <a class="nav__link" href="#">Olá, {{ user.username }}</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="{% url 'logout' %}">Sair</a>
+          </li>
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'lista_cursos' %}">Cursos</a>
+          </li>
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'portfolio_list' %}">Portfólios</a>
+          </li>
+          {% endif %}
+          {% if user.is_superuser %}
+          <!-- Itens exclusivos de superusuário, aparecendo em telas menores na cortina -->
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'new_portfolio' %}">Cadastrar Portfólio</a>
+          </li>
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'cadastro_curso' %}">Cadastrar Curso</a>
+          </li>
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'register' %}">Cadastrar Usuário</a>
+          </li>
+          <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="/admin/">Painel Django</a>
+          </li>
+          {% endif %}
+           <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'lista_cursos' %}">Cursos</a>
+          </li>
+           <li class="nav__item nav__item--mobile-only">
+            <a class="nav__link" href="{% url 'portfolio_list' %}">Portfólios</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="{% url 'sobre' %}">Sobre</a>
+          </li>
+
+          {% if user.is_superuser %}
+          <!-- Dropdown para superusuário em telas maiores -->
+          <li class="nav__dropdown">
+            <div class="nav__dropdown-toggle" id="dropdown-toggle">
+              <i class="ri-more-2-fill"></i>
+            </div>
+            <div class="dropdown__menu" id="dropdown-menu">
+              <a class="nav__link" href="{% url 'new_portfolio' %}">Cadastrar Portfólio</a>
+              <a class="nav__link" href="{% url 'cadastro_curso' %}">Cadastrar Curso</a>
+              <a class="nav__link" href="{% url 'register' %}">Cadastrar Usuário</a>
+              <a class="nav__link" href="/admin/">Painel Django</a>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!--=============== JavaScript ===============-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const navToggle = document.getElementById("nav-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      const navClose = document.getElementById("nav-close");
+      const dropdownToggle = document.getElementById("dropdown-toggle");
+      const dropdownMenu = document.getElementById("dropdown-menu");
+
+      // Toggle menu on click
+      navToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.add("show-menu");
+      });
+
+      // Close the menu on close button click
+      navClose.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.remove("show-menu");
+      });
+
+      // Toggle dropdown options for superuser in larger screens
+      if (dropdownToggle) {
+        dropdownToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          dropdownMenu.classList.toggle("show");
+        });
+      }
+
+      // Close the menu when clicking outside of it
+      document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+          navMenu.classList.remove("show-menu");
+        }
+        if (!dropdownMenu.contains(e.target) && dropdownToggle && !dropdownToggle.contains(e.target)) {
+          dropdownMenu.classList.remove("show");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

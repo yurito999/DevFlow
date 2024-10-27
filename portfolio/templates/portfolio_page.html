@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% load static %} <!-- Certifique-se de carregar a tag 'static' aqui -->
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--==================== UNICONS ====================-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+
+    <!--==================== SWIPER CSS ====================-->
+    <link rel="stylesheet" href="{% static 'assets/css/swiper-bundle.min.css' %}">
+
+    <!--==================== CSS ====================-->
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+    <title>Responsive Portfolio Website</title>
+
+    <style>
+        :root {
+            --first-color: #A678F0; /* Navy blue */
+            --first-color-light: #A678F0; /* Lilac */
+            --text-color: #C3C3C3;
+            --title-color: #EAEAEA;
+            --body-color: #202133;
+            --container-color: #282A3F;
+        }
+
+        body {
+            background-color: var(--body-color);
+            font-family: 'Syne', sans-serif;
+            color: var(--text-color);
+        }
+
+        .home__title, .section__title {
+            color: var(--title-color);
+        }
+
+        .button {
+            background-color: var(--first-color);
+            color: #fff;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .button:hover {
+            background-color: var(--first-color-light);
+            color: var(--title-color);
+        }
+
+        .home__scroll-button {
+            background-color: var(--container-color);
+            color: #fff;
+            border-radius: 50%;
+            padding: 0.5rem;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .home__scroll-button:hover {
+            color: var(--first-color);
+        }
+
+        .home__social-icon {
+            color: #fff;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .home__social-icon:hover {
+            color: var(--first-color);
+        }
+
+        .contact__form {
+            background-color: var(--container-color);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <!--==================== HOME ====================-->
+        <section class="home section" id="home">
+            <div class="home__container container grid">
+                <div class="home__content grid">
+                    <div class="home__social">
+                        {% if portfolio.linkedin %}
+                        <a href="{{ portfolio.linkedin }}" target="_blank" class="home__social-icon">
+                            <i class="uil uil-linkedin-alt"></i>
+                        </a>
+                        {% endif %}
+                        {% if portfolio.dribbble %}
+                        <a href="{{ portfolio.dribbble }}" target="_blank" class="home__social-icon">
+                            <i class="uil uil-dribbble"></i>
+                        </a>
+                        {% endif %}
+                        {% if portfolio.github %}
+                        <a href="{{ portfolio.github }}" target="_blank" class="home__social-icon">
+                            <i class="uil uil-github-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="home__img" id="svgContainer">
+                        <!-- SVG será inserido aqui dinamicamente pelo JavaScript -->
+                    </div>
+
+                    <div class="home__data">
+                        <h1 class="home__title">Olá, me chamo {{ portfolio.primeiro_nome }}</h1>
+                        <h3 class="home__subtitle">{{ portfolio.area_atuacao }}</h3>
+                        <p class="home__description">Com {{ portfolio.tempo_experiencia }} anos de experiência, eu me especializo em {{ portfolio.especialidades }}. Completei {{ portfolio.numero_projetos }} projetos, trabalhando com {{ portfolio.numero_companhias }} empresas.</p>
+                        <a href="#contact" class="button button--flex">
+                            Fale Comigo <i class="uil uil-message button__icon"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="home__scroll">
+                    <a href="#about" class="home__scroll-button button--flex">
+                        <i class="uil uil-mouse-alt home__scroll-mouse"></i>
+                        <span class="home__scroll-name">Role para baixo</span>
+                        <i class="uil uil-arrow-down home__scroll-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== ABOUT ====================-->
+        <section class="about section" id="about">
+            <h2 class="section__title">Sobre mim</h2>
+            <span class="section__subtitle">Introdução</span>
+
+            <div class="about__container container grid">
+                {% if portfolio.photo %}
+                <img src="{{ portfolio.photo.url }}" alt="Foto de perfil de {{ portfolio.primeiro_nome }}" class="about__img" style="object-fit: cover; object-position: center; border-radius: 15px;">
+                {% endif %}
+
+                <div class="about__data">
+                    <p class="about__description">{{ portfolio.sobre }}</p>
+
+                    <div class="about__info">
+                        <div>
+                            <span class="about__info-title">{{ portfolio.tempo_experiencia }}+</span>
+                            <span class="about__info-name">Anos de <br> experiência</span>
+                        </div>
+                        <div>
+                            <span class="about__info-title">{{ portfolio.numero_projetos }}+</span>
+                            <span class="about__info-name">Projetos <br> completados</span>
+                            </div>
+                        <div>
+                            <span class="about__info-title">{{ portfolio.numero_companhias }}+</span>
+                            <span class="about__info-name">Empresas <br> trabalhadas</span>
+                            </div>
+                    </div>
+
+                   <!--==================== <div class="about__buttons">
+                        <a href="{% url 'portfolio_pdf' portfolio.pk %}" class="button button--flex" target="_blank">
+                          Baixar Card do Aluno <i class="uil uil-download-alt button__icon"></i>
+                        </a>
+                    </div>====================-->
+                </div>
+            </div>
+        </section>
+
+        <!--==================== QUALIFICATION ====================-->
+        <section class="qualification section">
+            <h2 class="section__title">Qualificações</h2>
+            <span class="section__subtitle">Mais sobre {{ portfolio.primeiro_nome }}</span>
+
+            <div class="qualification__container container">
+                <div class="qualification__tabs">
+                    <div class="qualification__button button--flex qualification__active" data-target="#education">
+                        <i class="uil uil-graduation-cap qualification__icon"></i>
+                        Cursos
+                    </div>
+                    <div class="qualification__button button--flex" data-target="#work">
+                        <i class="uil uil-briefcase-alt qualification__icon"></i>
+                        Experiência
+                    </div>
+                </div>
+
+                <div class="qualification__sections">
+                    <!--=============== QUALIFICATION CONTENT 1 ===============-->
+                    <div class="qualification__content qualification__active" data-content id="education">
+                        {% for formacao in formacoes %}
+                        <div class="qualification__data">
+                            <div>
+                                <h3 class="qualification__title">{{ formacao.curso }}</h3>
+                                <span class="qualification__subtitle" style="color: #A678F0;">{{ formacao.nome_instituicao }}</span>
+                                <div class="qualification__calendar">
+                                    <i class="uil uil-calendar-alt"></i>
+                                    {{ formacao.data_inicio|date:"Y" }} - {{ formacao.data_conclusao|date:"Y" }}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="qualification__rounder"></span>
+                                <span class="qualification__line"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!--=============== QUALIFICATION CONTENT 2 ===============-->
+                    <div class="qualification__content" data-content id="work">
+                        {% for experiencia in experiencias_trabalho %}
+                        <div class="qualification__data">
+                            <div>
+                                <h3 class="qualification__title">{{ experiencia.cargo }}</h3>
+                                <span class="qualification__subtitle" style="color: #A678F0;">{{ experiencia.nome_empresa }}</span>
+                                <div class="qualification__calendar">
+                                    <i class="uil uil-calendar-alt"></i>
+                                    {{ experiencia.data_inicio|date:"Y" }} - {% if experiencia.data_fim %}{{ experiencia.data_fim|date:"Y" }}{% else %}Presente{% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="qualification__rounder"></span>
+                                <span class="qualification__line"></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== CONTACT ====================-->
+        <section class="contact section" id="contact">
+            <h2 class="section__title">Entre em Contato</h2>
+            <span class="section__subtitle">Fale com {{ portfolio.primeiro_nome }}</span>
+
+            <div class="contact__container container grid">
+                <!-- Informações de contato do portfólio -->
+                <div>
+                    <div class="contact__information">
+                        <i class="uil uil-phone contact__icon"></i>
+                        <div>
+                            <h3 class="contact__title">Telefone</h3>
+                            <span class="contact__subtitle" style="color: #A678F0;">{{ portfolio.telefone }}</span> <!-- Puxando telefone do banco -->
+                        </div>
+                    </div>
+
+                    <div class="contact__information">
+                        <i class="uil uil-envelope contact__icon"></i>
+                        <div>
+                            <h3 class="contact__title">Email</h3>
+                            <span class="contact__subtitle" style="color: #A678F0;">{{ portfolio.email }}</span> <!-- Puxando email do banco -->
+                        </div>
+                    </div>
+
+                    <div class="contact__information">
+                        <i class="uil uil-map-marker contact__icon"></i>
+                        <div>
+                            <h3 class="contact__title">Localização</h3>
+                            <span class="contact__subtitle" style="color: #A678F0;">{{ portfolio.localidade }}</span> <!-- Puxando localidade do banco -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulário para o visitante enviar mensagem -->
+                <form action="" method="POST" class="contact__form grid">
+                    {% csrf_token %} <!-- Proteção contra CSRF -->
+
+                    <div class="contact__inputs grid">
+                        <div class="contact__content">
+                            <label for="name" class="contact__label">Nome</label>
+                            <input type="text" name="name" id="name" class="contact__input" placeholder="Seu nome" required>
+                        </div>
+                        <div class="contact__content">
+                            <label for="email" class="contact__label">Email</label>
+                            <input type="email" name="email" id="email" class="contact__input" placeholder="Seu email" required>
+                        </div>
+                    </div>
+
+                    <div class="contact__content">
+                        <label for="project" class="contact__label">Projeto</label>
+                        <input type="text" name="project" id="project" class="contact__input" placeholder="Descrição do projeto" required>
+                    </div>
+
+                    <div class="contact__content">
+                        <label for="message" class="contact__label">Mensagem</label>
+                        <textarea name="message" id="message" cols="0" rows="7" class="contact__input" placeholder="Sua mensagem..." required></textarea>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="button button--flex">
+                            Enviar Mensagem
+                            <i class="uil uil-message button__icon"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--==================== SWIPER JS ====================-->
+    <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+
+      <!--==================== MAIN JS ====================-->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <script>
+        console.log("Script carregado");
+
+        // Definindo os SVGs como strings
+        const svg1 = `
+            <svg class="home__blob" viewBox="0 0 200 187">
+                <mask id="mask0" mask-type="alpha">
+                    <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547
+                    130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403 129.362C2.45775
+                    97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028 -0.149132 97.9666
+                    0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z"/>
+                </mask>
+                <g mask="url(#mask0)">
+                    <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346
+                    165.547 130.807 187.559 100.226 186.353C69.6454 185.297 41.0228 161.023 21.7403
+                    129.362C2.45775 97.8511 -7.48481 59.1033 6.67581 34.5279C20.9871 10.1032 59.7028
+                    -0.149132 97.9666 0.00163737C136.23 0.303176 174.193 10.857 190.312 36.4879Z"
+                    fill="var(--first-color)"/>
+
+                    {% if portfolio.photo %}
+                    <image class="home__blob-img" x="20" y="25" width="200" height="200" href="{{ portfolio.photo.url }}" style="object-fit: cover; object-position: center; border-radius: 50%;" />
+                    {% endif %}
+                </g>
+            </svg>
+        `;
+
+        const svg2 = `
+            <svg class="home__blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask1" mask-type="alpha">
+                    <path fill="#A678F0" d="M41.9,-67.5C55.3,-64.9,67.7,-55.6,71,-43.2C74.3,-30.8,68.6,-15.4,64,-2.7C59.3,10,55.6,20,51.9,31.7C48.1,43.3,44.3,56.7,35.6,64.5C26.9,72.4,13.5,74.7,-1.3,77C-16.1,79.3,-32.2,81.4,-44,75.4C-55.9,69.4,-63.5,55.2,-67.8,41.3C-72.1,27.4,-73.1,13.7,-75.6,-1.4C-78.1,-16.6,-82.2,-33.2,-77.4,-46.3C-72.7,-59.5,-59.1,-69.2,-44.8,-71.2C-30.4,-73.2,-15.2,-67.4,-0.4,-66.6C14.3,-65.8,28.6,-70.1,41.9,-67.5Z" transform="translate(100 100)" />
+                </mask>
+                <g mask="url(#mask1)">
+                    <path fill="#A678F0" d="M41.9,-67.5C55.3,-64.9,67.7,-55.6,71,-43.2C74.3,-30.8,68.6,-15.4,64,-2.7C59.3,10,55.6,20,51.9,31.7C48.1,43.3,44.3,56.7,35.6,64.5C26.9,72.4,13.5,74.7,-1.3,77C-16.1,79.3,-32.2,81.4,-44,75.4C-55.9,69.4,-63.5,55.2,-67.8,41.3C-72.1,27.4,-73.1,13.7,-75.6,-1.4C-78.1,-16.6,-82.2,-33.2,-77.4,-46.3C-72.7,-59.5,-59.1,-69.2,-44.8,-71.2C-30.4,-73.2,-15.2,-67.4,-0.4,-66.6C14.3,-65.8,28.6,-70.1,41.9,-67.5Z" transform="translate(100 100)" />
+
+                    {% if portfolio.photo %}
+                    <image class="home__blob-img" x="20" y="25" width="200" height="200" href="{{ portfolio.photo.url }}" style="object-fit: cover; object-position: center; border-radius: 50%;" />
+                    {% endif %}
+                </g>
+            </svg>
+        `;
+
+      const svg3 = `
+            <svg class="home__blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask2" mask-type="alpha">
+                    <path fill="#A678F0" d="M55.7,-60.6C70.1,-54.3,78.2,-34.8,79,-16.1C79.8,2.7,73.2,20.5,64.4,38.4C55.6,56.3,44.5,74.2,28.3,82.1C12,89.9,-9.6,87.8,-26.9,79.2C-44.2,70.6,-57.3,55.6,-66.5,38.8C-75.7,22,-80.9,3.4,-79.4,-15.5C-77.8,-34.4,-69.4,-53.6,-55.1,-59.9C-40.7,-66.3,-20.4,-59.8,0.1,-60C20.7,-60.2,41.3,-67,55.7,-60.6Z" transform="translate(100 100)" />
+                </mask>
+                <g mask="url(#mask2)">
+                    <path fill="#A678F0" d="M55.7,-60.6C70.1,-54.3,78.2,-34.8,79,-16.1C79.8,2.7,73.2,20.5,64.4,38.4C55.6,56.3,44.5,74.2,28.3,82.1C12,89.9,-9.6,87.8,-26.9,79.2C-44.2,70.6,-57.3,55.6,-66.5,38.8C-75.7,22,-80.9,3.4,-79.4,-15.5C-77.8,-34.4,-69.4,-53.6,-55.1,-59.9C-40.7,-66.3,-20.4,-59.8,0.1,-60C20.7,-60.2,41.3,-67,55.7,-60.6Z" transform="translate(100 100)" />
+
+                    {% if portfolio.photo %}
+                    <image class="home__blob-img" x="20" y="25" width="200" height="200" href="{{ portfolio.photo.url }}" style="object-fit: cover; object-position: center; border-radius: 50%;" />
+                    {% endif %}
+                </g>
+            </svg>
+        `;
+
+
+        const svg4 = `
+            <svg class="home__blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask3" mask-type="alpha">
+                    <path fill="#A678F0" d="M40.2,-72.7C48.2,-64.9,48.2,-46.4,54.7,-32.5C61.3,-18.5,74.4,-9.3,80.7,3.7C87.1,16.6,86.7,33.3,79.7,46.3C72.7,59.4,59,68.9,44.6,72.3C30.2,75.6,15.1,72.8,-0.1,73C-15.4,73.2,-30.7,76.5,-42.6,71.7C-54.6,67,-63.1,54.1,-61.9,40.8C-60.6,27.6,-49.7,13.8,-51.1,-0.8C-52.4,-15.4,-66.1,-30.7,-63.5,-37.4C-60.9,-44,-41.9,-41.9,-28.6,-46.7C-15.4,-51.5,-7.7,-63,4.2,-70.3C16.1,-77.6,32.1,-80.5,40.2,-72.7Z" transform="translate(100 100)" />
+                </mask>
+                <g mask="url(#mask3)">
+                    <path fill="#A678F0" d="M40.2,-72.7C48.2,-64.9,48.2,-46.4,54.7,-32.5C61.3,-18.5,74.4,-9.3,80.7,3.7C87.1,16.6,86.7,33.3,79.7,46.3C72.7,59.4,59,68.9,44.6,72.3C30.2,75.6,15.1,72.8,-0.1,73C-15.4,73.2,-30.7,76.5,-42.6,71.7C-54.6,67,-63.1,54.1,-61.9,40.8C-60.6,27.6,-49.7,13.8,-51.1,-0.8C-52.4,-15.4,-66.1,-30.7,-63.5,-37.4C-60.9,-44,-41.9,-41.9,-28.6,-46.7C-15.4,-51.5,-7.7,-63,4.2,-70.3C16.1,-77.6,32.1,-80.5,40.2,-72.7Z" transform="translate(100 100)" />
+
+                    {% if portfolio.photo %}
+                    <image class="home__blob-img" x="20" y="25" width="200" height="200" href="{{ portfolio.photo.url }}" style="object-fit: cover; object-position: center; border-radius: 50%;" />
+                    {% endif %}
+                </g>
+            </svg>
+        `;
+
+        const svg5 = `
+            <svg class="home__blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask4" mask-type="alpha">
+                    <path fill="#A678F0" d="M39.9,-70.4C52.8,-61.6,65.1,-53.2,72.6,-41.5C80,-29.8,82.5,-14.9,81,-0.8C79.6,13.3,74.3,26.5,66.9,38.2C59.5,50,50,60.1,38.5,68.3C27.1,76.5,13.5,82.6,-0.1,82.8C-13.8,83,-27.5,77.3,-39.3,69.3C-51.1,61.3,-61,51.1,-69.3,39.2C-77.6,27.3,-84.3,13.6,-84.1,0.1C-83.9,-13.4,-76.8,-26.8,-68.9,-39.5C-61.1,-52.1,-52.5,-64.1,-40.9,-73.6C-29.3,-83.2,-14.6,-90.4,-0.6,-89.4C13.5,-88.4,27,-79.2,39.9,-70.4Z" transform="translate(100 100)" />
+                </mask>
+                <g mask="url(#mask4)">
+                    <path fill="#A678F0" d="M39.9,-70.4C52.8,-61.6,65.1,-53.2,72.6,-41.5C80,-29.8,82.5,-14.9,81,-0.8C79.6,13.3,74.3,26.5,66.9,38.2C59.5,50,50,60.1,38.5,68.3C27.1,76.5,13.5,82.6,-0.1,82.8C-13.8,83,-27.5,77.3,-39.3,69.3C-51.1,61.3,-61,51.1,-69.3,39.2C-77.6,27.3,-84.3,13.6,-84.1,0.1C-83.9,-13.4,-76.8,-26.8,-68.9,-39.5C-61.1,-52.1,-52.5,-64.1,-40.9,-73.6C-29.3,-83.2,-14.6,-90.4,-0.6,-89.4C13.5,-88.4,27,-79.2,39.9,-70.4Z" transform="translate(100 100)" />
+
+                    {% if portfolio.photo %}
+                    <image class="home__blob-img" x="20" y="25" width="200" height="200" href="{{ portfolio.photo.url }}" style="object-fit: cover; object-position: center; border-radius: 50%;" />
+                    {% endif %}
+                </g>
+            </svg>
+        `;
+
+        // Espaço para adicionar mais SVGs no futuro
+
+        // Selecionar aleatoriamente um dos SVGs
+        const svgs = [svg1, svg2, svg3, svg4, svg5]; // Array para adicionar novos SVGs posteriormente
+        const selectedSvg = svgs[Math.floor(Math.random() * svgs.length)];
+
+        // Inserir o SVG dentro da div com id "svgContainer"
+        document.getElementById('svgContainer').innerHTML = selectedSvg;
+    </script>
+</body>
+
+{% endblock %}

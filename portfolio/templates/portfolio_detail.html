@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    .portfolio-card {
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .portfolio-card:hover {
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .portfolio-card:hover p, .portfolio-card:hover h2 {
+      color: hsl(283, 100%, 30%);
+    }
+
+    .portfolio-card img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      margin-top: 20px;
+    }
+
+    .portfolio-card h2 {
+      font-size: 2rem;
+      margin: 20px 0;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .portfolio-card p {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #666;
+      transition: color 0.3s ease;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      gap: 15px;
+      margin-bottom: 40px; /* Adicionado para afastar os botões do footer */
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: hsl(283, 100%, 30%) !important;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #720101;
+    }
+
+    .btn-danger {
+      background-color: #d9534f;
+    }
+
+    .btn-danger:hover {
+      background-color: #d2221c;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+
+  <div class="portfolio-card">
+    <!-- Exibindo a foto -->
+    {% if object.photo %}
+    <img src="{{ object.photo.url }}" alt="{{ object.primeiro_nome }} {{ object.sobrenome }}" id="portfolio-photo">
+    {% endif %}
+
+    <h2>{{ object.primeiro_nome }} {{ object.sobrenome }}</h2>
+    <p><strong>Principal formação:</strong> {{ object.principal_formacao }}</p>
+    <p><strong>Experiência:</strong> {{ object.tempo_experiencia }} anos</p>
+    <p><strong>Número de Projetos:</strong> {{ object.numero_projetos }}</p>
+    <p><strong>Número de Companhias:</strong> {{ object.numero_companhias }}</p>
+    <p><strong>Especialidades:</strong> {{ object.especialidades }}</p>
+    <p><strong>Email:</strong> {{ object.email }}</p>
+    <p><strong>Localidade:</strong> {{ object.localidade }}</p>
+  </div>
+
+  {% if user.is_superuser %}
+  <div class="buttons-container">
+    <a href="{% url 'update' object.pk %}" class="btn">Editar</a>
+    <a href="{% url 'delete' object.pk %}" class="btn btn-danger">Deletar</a>
+    <a href="{% url 'portfolio_page' object.primeiro_nome %}" class="btn">Visualizar</a>
+  </div>
+  {% endif %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const imgElement = document.getElementById("portfolio-photo");
+      if (imgElement) {
+        imgElement.style.objectPosition = "center";
+      }
+    });
+  </script>
+{% endblock %}

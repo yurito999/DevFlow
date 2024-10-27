@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      margin: 0 10px;
+    }
+
+    .btn:hover {
+      background-color: #108eb8;
+    }
+
+    .btn-danger {
+      background-color: #d9534f;
+      text-decoration: none !important;
+    }
+
+    .btn-danger:hover {
+      background-color: #d2221c;
+    }
+
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+
+    .card {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .card-body {
+      text-align: center;
+    }
+
+    .card-body p {
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">Deletar Portfólio</h1>
+    </div>
+    <div class="card-body">
+      <p>Tem certeza que deseja deletar o portfólio de <strong>{{ object.primeiro_nome }} {{ object.sobrenome }}</strong>?</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="buttons-container">
+          <button type="submit" class="btn btn-danger">Deletar Portfólio</button>
+          <a href="{% url 'update' object.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

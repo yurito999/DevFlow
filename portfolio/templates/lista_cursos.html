@@ -1,0 +1,404 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <style>
+    body {
+      overscroll-behavior: none; /* Evita arrastar a tela além dos limites em dispositivos móveis */
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 0 auto;
+      max-width: 100%;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-card {
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .portfolio-card:hover {
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        transform: translateY(-10px);
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+      border-radius: 0px;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .portfolio-card h2 {
+      font-size: 1.0rem;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .portfolio-card p {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 20px;
+      padding: 0 15px;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      gap: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: hsl(283, 100%, 30%) !important;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #720101;
+    }
+
+    @media (max-width: 768px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .portfolio-card {
+        margin: 10px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-card {
+        margin: 10px;
+      }
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        padding: 20px;
+        position: relative;
+        z-index: 3;
+    }
+
+    input[type="text"] {
+        padding: 15px;
+        font-size: 16px;
+        border: 2px solid #d1d1d1;
+        border-radius: 25px;
+        width: 350px;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        border-color: hsl(283, 100%, 30%);
+    }
+
+    button[type="submit"] {
+        margin-left: 10px;
+        background-color: hsl(283, 100%, 30%) !important;
+        color: #fff;
+        border: none;
+        padding: 15px 25px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #720101;
+    }
+
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: hsl(283, 100%, 30%);
+    }
+
+    .no-results {
+      text-align: center;
+      color: #666;
+      font-size: 1.2rem;
+    }
+
+    .no-photos {
+      padding: 20px;
+      color: #999;
+    }
+
+    /* Estilos para a caixa de resultados da busca em tempo real */
+    .search-results {
+      border: 1px solid #ccc;
+      background-color: #fff;
+      width: 100%;
+      max-width: 350px;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .search-results div {
+      padding: 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-results div img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .search-results div a {
+      text-decoration: none;
+      color: #333;
+      flex-grow: 1;
+    }
+
+    .search-results div:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Estilo para as setas de navegação */
+    .navigation-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: hsl(283, 100%, 30%);
+      color: #fff;
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    #arrow-left {
+      left: 10px;
+    }
+
+    .navigation-arrow:hover {
+      background-color: #720101;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .navigation-arrow i {
+      margin: 0 10px;
+    }
+
+    /* Esconder setas de navegação em dispositivos com telas menores */
+    @media (max-width: 768px) {
+      .navigation-arrow {
+        display: none;
+      }
+    }
+
+    /* Animação de transição para sair da página da direita para a esquerda */
+    .slide-out-right {
+      animation: slideOutRight 0.6s ease-in-out;
+    }
+
+    @keyframes slideOutRight {
+      0% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <!-- Campo de busca com sugestão em tempo real -->
+  <form method="GET" action="{% url 'lista_cursos' %}">
+    <input type="text" name="search" id="search-input" placeholder="Buscar curso..." autocomplete="off">
+    <button type="submit">Buscar</button>
+    <div id="search-results" class="search-results"></div> <!-- Área para os resultados da busca dinâmica -->
+  </form>
+
+  {% if cursos %}
+  <div class="portfolio-grid">
+  {% for curso in cursos %}
+  {% if curso.pk %}
+    <a href="{% url 'curso_detail' curso.pk %}">
+      <div class="portfolio-card">
+        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+        <h2>{{ curso.nome }}</h2>
+        <p>{{ curso.descricao }}</p>
+      </div>
+    </a>
+  {% endif %}
+{% endfor %}
+
+  </div>
+  {% else %}
+    <p class="no-results">Nenhum curso encontrado.</p>
+  {% endif %}
+
+  <!-- Adicionando seta de navegação para portfólios -->
+  <div id="arrow-left" class="navigation-arrow">
+    <i class="ri-arrow-left-line"></i> Portfólios
+  </div>
+
+  <!-- Script para AJAX com busca dinâmica e animação de transição -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const resultBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value;
+            if (query.length > 1) {
+                fetch(`/search-courses/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        resultBox.innerHTML = '';  // Limpa a lista anterior
+                        if (data.length > 0) {
+                            data.forEach(course => {
+                                const resultItem = document.createElement('div');
+                                resultItem.innerHTML = `
+                                    <a href="/curso/${course.pk}/">
+                                        <strong>${course.nome}</strong> - ${course.descricao}
+                                    </a>
+                                `;
+                                resultBox.appendChild(resultItem);
+                            });
+                        } else {
+                            resultBox.innerHTML = '<div>Nenhum resultado encontrado</div>';
+                        }
+                    });
+            } else {
+                resultBox.innerHTML = '';  // Limpa se a busca for muito curta
+            }
+        });
+
+        // Script para redirecionar ao clicar na seta de portfólios
+        document.getElementById('arrow-left')?.addEventListener('click', function() {
+          const loadingOverlay = document.createElement('div');
+          loadingOverlay.className = 'loading-overlay visible';
+          document.body.appendChild(loadingOverlay);
+          loadingOverlay.innerHTML = '<div class="spinner"></div>';
+
+          document.querySelector('.portfolio-grid').classList.add('slide-out-right');
+          setTimeout(function() {
+            window.location.href = "{% url 'portfolio_list' %}";
+          }, 600);
+        });
+
+        // Remover o overlay de loading ao voltar para a página
+        window.addEventListener('pageshow', function(event) {
+          if (event.persisted) {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+              loadingOverlay.remove();
+            }
+          }
+        });
+    });
+  </script>
+
+  <!-- Loading overlay style -->
+  <style>
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      visibility: hidden;
+    }
+
+    .loading-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid hsl(283, 100%, 30%);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+{% endblock %}

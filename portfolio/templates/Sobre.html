@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <style>
+    body {
+      overscroll-behavior: none; /* Evita arrastar a tela além dos limites em dispositivos móveis */
+      font-family: "Syne", sans-serif; /* Garante a mesma fonte em todas as páginas */
+    }
+
+    .about-container {
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 40px auto;
+      text-align: center;
+      width: 90%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-container h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .about-container p {
+      font-size: 1.2rem;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: hsl(283, 100%, 30%) !important;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background-color: #720101;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    a:hover {
+      color: hsl(283, 100%, 30%);
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 768px) {
+      .about-container {
+        padding: 20px;  /* Reduz o padding em telas menores */
+      }
+
+      .about-container h1 {
+        font-size: 2rem;  /* Diminui o tamanho da fonte em dispositivos menores */
+      }
+
+      .about-container p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-container h1 {
+        font-size: 1.8rem;  /* Ajuste adicional para telas muito pequenas */
+      }
+
+      .about-container p {
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  <div class="about-container">
+    <h1>Sobre o Projeto</h1>
+    <p>
+      Este projeto foi desenvolvido para fornecer uma plataforma onde profissionais podem criar, atualizar
+      e compartilhar seus portfólios. A ideia é ajudar tanto iniciantes quanto experientes a consolidarem
+      suas experiências, formações e habilidades em um só lugar. Aqui, os usuários podem facilmente editar suas
+      informações e compartilhar suas conquistas profissionais de forma organizada e visualmente atraente.
+    </p>
+    <p>
+      A plataforma permite que os portfólios sejam atualizados dinamicamente, com opções para adicionar novas
+      formações acadêmicas e experiências de trabalho. Além disso, os usuários têm a possibilidade de incluir
+      informações de contato e redes sociais, garantindo que recrutadores ou colegas de trabalho possam acessá-los
+      de maneira prática.
+    </p>
+    <p>
+      Este projeto foi construído utilizando Django como framework backend, com um banco de dados robusto
+      para armazenar todas as informações do portfólio. O design é simples e responsivo, permitindo que os usuários
+      naveguem e editem seus perfis em qualquer dispositivo.
+    </p>
+    <a href="/" class="btn">Voltar ao Início</a>
+  </div>
+{% endblock %}
