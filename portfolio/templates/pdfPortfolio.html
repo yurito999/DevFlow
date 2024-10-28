@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartão do Aluno - PDF</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #A678F0;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin: 0;
+            color: #A678F0;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+
+        .profile-section img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .profile-details {
+            flex-grow: 1;
+        }
+
+        .profile-details h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .info-section {
+            margin-bottom: 30px;
+        }
+
+        .info-section h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #A678F0;
+        }
+
+        .info-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .experience-education {
+            margin-bottom: 30px;
+        }
+
+        .experience-education h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #A678F0;
+        }
+
+        .experience-education-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-left: 4px solid #A678F0;
+            background-color: #f9f9f9;
+        }
+
+        .experience-education-item h4 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .experience-education-item p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DevFlow</h1>
+            <h2>Cartão do Aluno - {{ portfolio.primeiro_nome }} {{ portfolio.sobrenome }}</h2>
+        </div>
+
+        <div class="profile-section">
+            {% if portfolio.photo %}
+            <img src="{{ portfolio.photo.url }}" alt="Foto de perfil de {{ portfolio.primeiro_nome }}">
+            {% endif %}
+            <div class="profile-details">
+                <h2>{{ portfolio.primeiro_nome }} {{ portfolio.sobrenome }}</h2>
+                <p>{{ portfolio.area_atuacao }}</p>
+                <p>Email: {{ portfolio.email }}</p>
+                <p>Telefone: {{ portfolio.telefone }}</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Sobre</h3>
+            <p>{{ portfolio.sobre }}</p>
+        </div>
+
+        <div class="experience-education">
+            <h3>Formação Acadêmica</h3>
+            {% for formacao in formacoes %}
+            <div class="experience-education-item">
+                <h4>{{ formacao.curso }} - {{ formacao.nome_instituicao }}</h4>
+                <p>{{ formacao.data_inicio|date:"Y" }} - {{ formacao.data_conclusao|date:"Y" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="experience-education">
+            <h3>Experiência Profissional</h3>
+            {% for experiencia in experiencias_trabalho %}
+            <div class="experience-education-item">
+                <h4>{{ experiencia.cargo }} - {{ experiencia.nome_empresa }}</h4>
+                <p>{{ experiencia.data_inicio|date:"Y" }} - {% if experiencia.data_fim %}{{ experiencia.data_fim|date:"Y" }}{% else %}Presente{% endif %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
+    <style>
+        :root {
+            --first-color: #A678F0; /* Navy blue */
+            --first-color-light: #A678F0; /* Lilac */
+            --text-color: #C3C3C3;
+            --title-color: #EAEAEA;
+            --body-color: #202133;
+            --container-color: #282A3F;
+        }
+
+        body {
+            background-color: var(--body-color);
+            font-family: 'Syne', sans-serif;
+            color: var(--text-color);
+        }
+
+        .home__title, .section__title {
+            color: var(--title-color);
+        }
+
+        .button {
+            background-color: var(--first-color);
+            color: #fff;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .button:hover {
+            background-color: var(--first-color-light);
+            color: var(--title-color);
+        }
+
+        .home__scroll-button {
+            background-color: var(--container-color);
+            color: #fff;
+            border-radius: 50%;
+            padding: 0.5rem;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .home__scroll-button:hover {
+            color: var(--first-color);
+        }
+
+        .home__social-icon {
+            color: #fff;
+            transition: 0.3s;
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .home__social-icon:hover {
+            color: var(--first-color);
+        }
+
+        .contact__form {
+            background-color: var(--container-color);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+    </style>

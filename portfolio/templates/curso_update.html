@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atualizar Curso</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, input, textarea {
+            font-family: "Poppins", sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            font-size: 2.4rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="file"],
+        .form-container textarea,
+        .form-container input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="number"]:focus,
+        .form-container input[type="file"]:focus,
+        .form-container textarea:focus,
+        .form-container input[type="date"]:focus {
+            border-color: hsl(283, 100%, 30%);
+            outline: none;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .form-container input[type="file"] {
+            padding: 5px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: hsl(283, 100%, 30%) !important;
+            border: none;
+            outline: none;
+            height: 50px;
+            border-radius: 50px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: background-color 0.4s;
+        }
+
+        .btn-primary:hover {
+            background-color: #720101;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                max-width: 100%;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <h2>Atualizar Curso</h2>
+        <form action="{% url 'update_curso' curso.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="id_nome">Nome do Curso</label>
+            {{ form.nome }}
+
+            <label for="id_sala">Sala</label>
+            {{ form.sala }}
+
+            <label for="id_periodo">Período</label>
+            {{ form.periodo }}
+
+            <label for="id_instituicao">Instituição</label>
+            {{ form.instituicao }}
+
+            <label for="id_coordenador">Coordenador</label>
+            {{ form.coordenador }}
+
+            <label for="id_turnos">Turnos</label>
+            {{ form.turnos }}
+
+            <label for="id_nota_mec">Nota MEC</label>
+            {{ form.nota_mec }}
+
+            <label for="id_imagem">Imagem do Curso</label>
+            {{ form.imagem }}
+
+            <input type="submit" value="Atualizar" class="btn-primary">
+        </form>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

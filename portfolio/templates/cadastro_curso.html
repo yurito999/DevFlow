@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Curso</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, input, textarea {
+            font-family: "Poppins", sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            font-size: 2.4rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="file"],
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="file"]:focus,
+        .form-container textarea:focus,
+        .form-container select:focus {
+            border-color: hsl(283, 100%, 30%);
+            outline: none;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: hsl(283, 100%, 30%) !important;
+            border: none;
+            outline: none;
+            height: 50px;
+            border-radius: 50px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: background-color 0.4s;
+        }
+
+        .btn-primary:hover {
+            background-color: #720101;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-container {
+                max-width: 100%;
+                padding: 2rem;
+            }
+
+            .form-container h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .btn-primary {
+                height: 45px;
+            }
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ccc;
+            position: relative;
+        }
+
+        .star.selected,
+        .star.half-selected {
+            color: #FFD700;
+        }
+
+        .star.half-selected::before {
+            content: '\2605';
+            color: #FFD700;
+            position: absolute;
+            width: 50%;
+            overflow: hidden;
+            left: 0;
+        }
+
+        #id_nota_mec {
+            visibility: hidden;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .preview-img {
+            width: 100%;
+            max-width: 200px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.star');
+            const notaMecInput = document.getElementById('id_nota_mec');
+            const imageInput = document.getElementById('id_imagem');
+            const previewImg = document.getElementById('preview-img');
+            let selectedRating = parseFloat(notaMecInput.value) || 0;
+
+            updateStars(selectedRating);
+
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    const newRating = index + 1;
+                    selectedRating = newRating;
+                    updateStars(selectedRating);
+                    notaMecInput.value = selectedRating;
+                });
+
+                star.addEventListener('mouseover', () => {
+                    updateStars(index + 1);
+                });
+
+                star.addEventListener('mouseout', () => {
+                    updateStars(selectedRating);
+                });
+            });
+
+            imageInput.addEventListener('change', function() {
+                const file = imageInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    star.classList.remove('selected', 'half-selected');
+                    if (index < Math.floor(rating)) {
+                        star.classList.add('selected');
+                    } else if (index < rating) {
+                        star.classList.add('half-selected');
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <h2>Cadastrar Curso</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Exibir mensagens de erro se existirem -->
+            {% if form.errors %}
+                <div class="error-messages">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Campos do formulário principal de Curso -->
+            <label for="id_nome">Nome do Curso</label>
+            {{ form.nome }}
+
+            <label for="id_sala">Sala</label>
+            {{ form.sala }}
+
+            <label for="id_periodo">Período</label>
+            {{ form.periodo }}
+
+            <label for="id_instituicao">Instituição</label>
+            {{ form.instituicao }}
+
+            <label for="id_imagem">Imagem do Curso (Opcional)</label>
+            {{ form.imagem }}
+            <img id="preview-img" class="preview-img" alt="Pré-visualização da imagem">
+
+            <label for="id_turnos">Turnos</label>
+            {{ form.turnos }}
+
+            <label for="id_coordenador">Coordenador</label>
+            {{ form.coordenador }}
+
+            <!-- Campo de Nota MEC com Estrelas -->
+            <label for="id_nota_mec">Nota MEC</label>
+            <div class="star-rating">
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+            </div>
+            <input type="number" id="id_nota_mec" name="nota_mec" step="0.1" min="0" max="5" value="{{ form.nota_mec.value }}">
+
+            <!-- Botão de submit -->
+            <input type="submit" value="Cadastrar" class="btn-primary">
+        </form>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

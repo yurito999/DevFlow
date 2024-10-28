@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      overscroll-behavior: none;
+      font-family: "Syne", sans-serif;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, hsl(283, 100%, 30%), #720101);
+      color: #fff;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-section svg {
+        display: none;
+      }
+    }
+
+    .hero-section .content {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .hero-section p {
+      font-size: 1.3rem;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .hero-section .btn-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .hero-section .btn {
+      display: inline-block;
+      background-color: #fff;
+      color: hsl(283, 100%, 30%);
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .hero-section .btn:hover {
+      background-color: hsl(283, 100%, 30%);
+      color: #fff;
+    }
+
+    .hero-section .arrow {
+      font-size: 2rem;
+      color: #fff;
+      font-weight: bold;
+      transform: rotate(-10deg);
+    }
+
+    .hero-section .arrow.left {
+      margin-right: -10px;
+    }
+
+    .hero-section .arrow.right {
+      margin-left: -10px;
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-section p {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+
+      .hero-section p {
+        font-size: 1rem;
+      }
+    }
+
+    .hero-section {
+      scroll-margin-top: -100px;
+    }
+  </style>
+
+  <div class="hero-section" id="hero">
+    <object type="image/svg+xml" data="{% static 'icons/innovation-animate.svg' %}" class="hero-svg"></object>
+    <div class="content">
+      <h1>Bem-Vindo à EXPOFADESA 2024</h1>
+      <p>Confira os portfólios dos estudantes de Análise e Desenvolvimento de Sistemas clicando no botão abaixo.</p>
+      <div class="btn-wrapper">
+        <span class="arrow left">⇠</span>
+        <a href="/" class="btn">👉Clique Aqui👈</a>
+        <span class="arrow right">⇢</span>
+      </div>
+      <br><br>
+      <p>Explore na sala de ADS os melhores projetos da Expo!</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.innerWidth >= 1024) {
+        const svgElement = document.querySelector(".hero-svg");
+        if (svgElement) {
+          svgElement.style.display = "none";
+        }
+      }
+
+      // Scroll para a div hero-section ao carregar em telas menores
+      if (window.innerWidth < 1024) {
+        document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  </script>
+
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    .navbar {
+      display: none !important;
+    }
+  </style>
+{% endblock %}
